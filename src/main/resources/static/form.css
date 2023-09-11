@@ -1,0 +1,18 @@
+body
+{background: azure}
+
+button{
+    background: gold;
+    color: gold;
+    font-size: 18px;
+    border-width: 0;
+    padding: 10px 15px;
+    margin: 20px 0;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover
+{background: #dcd9d9
+}

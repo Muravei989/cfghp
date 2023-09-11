@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wärmepumpe Configurator</title>
+    <link rel="stylesheet" href="form.css">
+    <script>
+        function toggleQuestions() {
+            const heizlastValue = document.getElementById("heizlast").value;
+            const durchgef = document.getElementById("durchgef");
+            const radioGroup2 = document.getElementById("radioGroup2");
+            const eheizstab = document.getElementById("eheizstab");
+            const scheitholz1 = document.getElementById("scheitholz1");
+
+            if (heizlastValue >= 17 && heizlastValue <= 25) {
+                durchgef.style.display = "none";
+                radioGroup2.style.display = "none";
+                eheizstab.style.display = "block";
+                scheitholz1.style.display = "none";
+            } else if (heizlastValue === "0") {
+                durchgef.style.display = "block";
+                radioGroup2.style.display = "block";
+                eheizstab.style.display = "none";
+                scheitholz1.style.display = "none";
+            } else {
+                durchgef.style.display = "none";
+                radioGroup2.style.display = "none";
+                eheizstab.style.display = "none";
+                scheitholz1.style.display = "none";
+            }
+        }
+
+        function showRadioGroup2() {
+            const radioNein1 = document.getElementById("durchgefne");
+            const radioJa2 = document.getElementById("hinreichenja");
+            const hinreichenne = document.getElementById("hinreichenne");
+
+            if (radioNein1.checked) {
+                radioJa2.style.display = "block";
+                hinreichenne.style.display = "block";
+            } else {
+                radioJa2.style.display = "none";
+                hinreichenne.style.display = "none";
+            }
+        }
+
+        function showEHeizstab() {
+            const eheizstabNein = document.getElementById("eheizstabnein");
+            const scheitholz1 = document.getElementById("scheitholz1");
+
+            if (eheizstabNein.checked) {
+                scheitholz1.style.display = "block";
+            } else {
+                scheitholz1.style.display = "none";
+            }
+        }
+
+        function showScheitholz2() {
+            const scheitholzJa = document.getElementById("scheitholzja");
+            const scheitholz2 = document.getElementById("scheitholz2");
+
+            if (scheitholzJa.checked) {
+                scheitholz2.style.display = "block";
+            } else {
+                scheitholz2.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+<form action="/download-pdf" method="GET">
+    <fieldset>
+        <legend>Über die Heizlast</legend>
+        <label for="heizlast">Heizlastwert:</label>
+        <input type="number" id="heizlast" name="heizlast" min="0" max="25" oninput="toggleQuestions()"><br>
+
+        <div id="durchgef" style="display: none;">
+            <p>Kann eine Heizlastung durchgeführt werden?</p>
+            <label><input type="radio" id="durchgefja" name="dgmöglichkeit" value="Yes"> Ja</label>
+            <label><input type="radio" id="durchgefne" name="dgmöglichkeit" value="No" onclick="showRadioGroup2()"> Nein</label>
+        </div>
+
+        <div id="radioGroup2" style="display: none;">
+            <p>Kann eine hinreichend genaue Abschätzung der Heizlast vorgenommen werden?</p>
+            <label><input type="radio" id="hinreichenja" name="hrmöglichkeit" value="Yes"> Ja</label>
+            <label><input type="radio" id="hinreichenne" name="hrmöglichkeit" value="No"> Nein</label>
+        </div>
+
+        <div id="eheizstab" style="display: none;">
+            <p>Kann die Heizlast in Verbindung mit einem E-Heizstab abgedeckt werden?</p>
+            <label><input type="radio" id="eheizstabja" name="eheizstab" value="Yes"> Ja</label>
+            <label><input type="radio" id="eheizstabnein" name="eheizstab" value="No" onclick="showEHeizstab()"> Nein</label>
+        </div>
+
+        <div id="scheitholz1" style="display: none;">
+            <p>Gibt es noch einen Scheitholz der mit der Wärmepumpe kombiniert werden kann?</p>
+            <label><input type="radio" id="scheitholzja" name="scheitholz" value="Yes" onclick="showScheitholz2()"> Ja</label>
+            <label><input type="radio" id="scheitholznein" name="scheitholz" value="No"> Nein</label>
+        </div>
+
+        <div id="scheitholz2" style="display: none;">
+            <p>Additional question about Scheitholz</p>
+            <input type="hidden" id="pdfFileName" name="pdfFileName" value="KeineTechLos1.pdf">
+            <input type="submit" value="Submit" id="submitButton" style="display: none;">
+        </div>
+    </fieldset>
+</form>
+</body>
+</html>
